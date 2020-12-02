@@ -1,0 +1,43 @@
+import { LitElement } from "lit-element";
+declare type TextProps = {
+    className?: string;
+    error?: string;
+    id?: string;
+    label?: string;
+    placeholder?: string;
+    prefix?: string;
+    suffix?: string;
+    textAlign?: "left" | "right";
+    value?: string;
+    disabled?: boolean;
+    requiredIcon?: boolean;
+    visible?: boolean;
+};
+export declare class Text extends LitElement {
+    error: string;
+    label: string;
+    placeholder: string;
+    prefix: string;
+    suffix: string;
+    textAlign: string;
+    value: string;
+    disabled: boolean;
+    requiredIcon: boolean;
+    visible: boolean;
+    private _textContainerElm;
+    private _inputFormElm;
+    private _labelElm;
+    private _GUID;
+    constructor(props?: TextProps);
+    private _generateGUID;
+    private _updateVisible;
+    private _handleFocusInput;
+    private _handleChangeInput;
+    private _dispatchCustomEvent;
+    createRenderRoot(): this;
+    private _updateContainerWidth;
+    render(): import("lit-element").TemplateResult;
+    updated(): void;
+    private _getStyleTagTemplate;
+}
+export {};

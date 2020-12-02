@@ -1,0 +1,144 @@
+name: iPhone Simulator Test
+on:
+  push:
+
+    branches: [ master ]
+
+  pull_request:
+
+    branches: [ master ]
+
+env:
+  DOMAIN: ${{ secrets.DOMAIN }}
+  USERNAME: ${{ secrets.USERNAME }}
+  PASSWORD: ${{ secrets.PASSWORD }}
+
+jobs:
+
+  build:
+
+    name: Safari Test on iPhone simulator
+
+    runs-on: macos-latest
+
+
+
+    steps:
+
+      - name: Checkout
+
+        uses: actions/checkout@v2
+
+
+
+      - name: Set up Node.js
+
+        uses: actions/setup-node@v1
+
+        with:
+
+          node-version: '12.x'
+
+
+
+      # List iOS Devices & Platforms
+
+      - name: List iOS Devices & Platforms
+
+        run: |
+
+          xcrun simctl list
+
+
+
+      # Install iOS 13.7 Runtime
+
+      - name: Install iOS 13.7 Runtime
+
+        run: |
+
+          gem install xcode-install
+
+          xcversion simulators --install='iOS 13.7'
+
+
+
+      - name: Set up Appium
+
+        run: npm install -g appium
+
+
+
+      - name: Install Homebrew
+
+        run: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+
+
+
+      - name: Install the Carthage dependency manager
+
+        run: brew install carthage
+
+
+
+#      - name: Cache node modules
+
+#        uses: actions/cache@v2
+
+#        env:
+
+#          cache-name: cache-node-modules
+
+#        with:
+
+#          # npm cache files are stored in `~/.npm` on Linux/macOS
+
+#          path: ~/.npm
+
+#          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+
+#          restore-keys: |
+
+#            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+#            ${{ runner.os }}-build-
+
+#            ${{ runner.os }}-
+
+
+
+      - name: Set up test project
+
+        run: npm install
+
+
+
+      - name: Run tests
+
+        run: npm run test
+
+        continue-on-error: true
+
+
+
+      - name: Upload wdio-appium log
+
+        uses: actions/upload-artifact@v1
+
+        with:
+
+          name: wdio-appium.log
+
+          path: wdio-appium.log
+
+
+
+      - name: Upload image result
+
+        uses: actions/upload-artifact@v1
+
+        with:
+
+          name: result
+
+          path: .tmp
