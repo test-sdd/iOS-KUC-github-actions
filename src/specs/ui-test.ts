@@ -11,10 +11,10 @@ describe.only('Index', () => {
     browser.$("div.form-username-slash input[name='username']").setValue(`${process.env.USERNAME}`);
     browser.$("div.form-password-slash input[name='password']").setValue(`${process.env.PASSWORD}`);
     browser.$("input.login-button").click();
-    browser.pause(5000);
-    browser.$("button.gaia-mobile-v2-ui-welcomedialog-close-button").click();
-    browser.pause(5000)
-    browser.$("button.gaia-mobile-v2-ui-tooltip-closebutton").click();
+    // browser.pause(5000);
+    // browser.$("button.gaia-mobile-v2-ui-welcomedialog-close-button").click();
+    // browser.pause(5000)
+    // browser.$("button.gaia-mobile-v2-ui-tooltip-closebutton").click();
     browser.pause(5000)
   });
 ​
