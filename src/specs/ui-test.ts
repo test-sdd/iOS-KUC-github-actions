@@ -2,7 +2,7 @@ var exec = require('child_process').exec, child;
 
 
 // import { expect } from 'chai';
-describe('Index', () => {
+describe.only('Index', () => {
   before(async () => {
 ​
     browser.url(`https://${process.env.DOMAIN}/k/m/717/`);
