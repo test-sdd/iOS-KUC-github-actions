@@ -1,0 +1,6 @@
+workspace.xml
+vcs.xml
+node_modules
+.idea
+.tmp
+.vscode

@@ -1,30 +1,13 @@
 const { join } = require('path');
 exports.config = {
-    //
-    // ====================
-    // Runner Configuration
-    // ====================
-    //
-    // WebdriverIO allows it to run your tests in arbitrary locations (e.g. locally or
-    // on a remote machine).
     runner: 'local',
-    //
-    // ==================
-    // Specify Test Files
-    // ==================
-    // Define which test specs should run. The pattern is relative to the directory
-    // from which `wdio` was called. Notice that, if you are calling `wdio` from an
-    // NPM script (see https://docs.npmjs.com/cli/run-script) then the current working
-    // directory is where your package.json resides, so `wdio` will be called from there.
-    //
     specs: [
-        // './test/specs/*.js',
         './src/specs/*.ts',
     ],
-    // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
     ],
+
     //
     // ============
     // Capabilities
@@ -48,99 +31,54 @@ exports.config = {
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
     capabilities: [{
-    
-        // maxInstances can get overwritten per capability. So if you have an in-house Selenium
-        // grid with only 5 firefox instances available you can make sure that not more than
-        // 5 instances get started at a time.
-        // maxInstances: 5,
-        //
-        // browserName: 'MicrosoftEdge',
-        // browserName: 'internet explorer',
-        // browserName: 'firefox',
-        // browserName: 'safari',
-        // platformName: 'ios',
-        // port: 4444,
-        // 'safari:useSimulator': true
-        // If outputDir is provided WebdriverIO can capture driver session logs
-        // it is possible to configure which logTypes to include/exclude.
-        // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
-        // excludeDriverLogs: ['bugreport', 'server'],
         maxInstances: 1,
-        browserName: 'Safari',
-        automationName: 'Appium',
-        deviceName: 'iPhone 11',
-        platformVersion: '13.7',
-        platformName: 'iOS'
-    },
-   ],
-    //
-    // ===================
-    // Test Configurations
-    // ===================
-    // Define all options that are relevant for the WebdriverIO instance here
-    //
+        platformName: 'iOS',
+        deviceName: process.env.DEVICE_NAME || 'iPhone 11',
+        browserName: process.env.BROWSER_NAME || 'safari',
+        'appium:platformVersion': process.env.PLATFORM_VERSION || '13.7',
+        'appium:orientation': 'PORTRAIT',
+        'appium:automationName': 'XCUITest',
+        'appium:newCommandTimeout': 180000,
+        nativeWebScreenshot: true,
+    }],
+
     // Level of logging verbosity: trace | debug | info | warn | error | silent
     logLevel: 'info',
     path: '/',
-    //
-    // Set specific log levels per logger
-    // loggers:
-    // - webdriver, webdriverio
-    // - @wdio/applitools-service, @wdio/browserstack-service, @wdio/devtools-service, @wdio/sauce-service
-    // - @wdio/mocha-framework, @wdio/jasmine-framework
-    // - @wdio/local-runner, @wdio/lambda-runner
-    // - @wdio/sumologic-reporter
-    // - @wdio/cli, @wdio/config, @wdio/sync, @wdio/utils
-    // Level of logging verbosity: trace | debug | info | warn | error | silent
-    // logLevels: {
-    //     webdriver: 'info',
-    //     '@wdio/applitools-service': 'info'
-    // },
-    //
+
     // If you only want to run your tests until a specific amount of tests have failed use
     // bail (default is 0 - don't bail, run all tests).
     bail: 0,
-    //
-    // Set a base URL in order to shorten url command calls. If your `url` parameter starts
-    // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
-    // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
-    // gets prepended directly.
+
     baseUrl: 'http://localhost',
-    //
-    // Default timeout for all waitFor* commands.
+
     waitforTimeout: 20000,
-    //
-    // Default timeout in milliseconds for request
-    // if browser driver or grid doesn't send response
     connectionRetryTimeout: 360000,
-    //
-    // Default request retries count
     connectionRetryCount: 2,
+
     //
     // Test runner services
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    // services: ['safaridriver',
     port: 4723, // default appium port
     services: [
         ['appium', {
             logPath : './',
+            command: 'appium',
             args: {
                 // ...
                 debugLogSpacing: true,
-                platformName: 'iOS',
                 defaultDevice: true,
                 safari: true,
-                forceIphone: true
+                forceIphone: true,
                 // ...
             }
         }],
-    
-    //services: ['chromedriver', 'geckodriver', 'edgedriver', 'selenium-standalone', 'safaridriver',
+
         ['image-comparison', {
             // 基準となる画像を保存するフォルダ
-            baselineFolder: join(process.cwd(), './tests/sauceLabsBaseline/'),
+            baselineFolder: join(process.cwd(), './resources/baseline/'),
             // 保存する画像のファイル名のフォーマット
             formatImageName: '{tag}-{logName}-{width}x{height}',
             // テスト実行時に保存される画像を保存するフォルダ
@@ -155,40 +93,19 @@ exports.config = {
             blockOutToolBar: true,
         }],
     ],
-    
-    // Framework you want to run your specs with.
-    // The following are supported: Mocha, Jasmine, and Cucumber
-    // see also: https://webdriver.io/docs/frameworks.html
-    //
-    // Make sure you have the wdio adapter package for the specific framework installed
-    // before running any tests.
+
     framework: 'mocha',
-    //
-    // The number of times to retry the entire specfile when it fails as a whole
-    // specFileRetries: 1,
-    //
-    // Whether or not retried specfiles should be retried immediately or deferred to the end of the queue
-    // specFileRetriesDeferred: false,
-    //
-    // Test reporter for stdout.
-    // The only one supported by default is 'dot'
-    // see also: https://webdriver.io/docs/dot-reporter.html
     reporters: ['spec'],
-
-
-    
-    //
-    // Options to be passed to Mocha.
-    // See the full list at http://mochajs.org/
     mochaOpts: {
         ui: 'bdd',
-        timeout: 120000,
+        timeout: 60000,
         require: 'ts-node/register',
         compilers: [
             // optional
             'tsconfig-paths/register'
         ]
     },
+
     //
     // =====
     // Hooks
@@ -312,10 +229,10 @@ exports.config = {
     // onComplete: function(exitCode, config, capabilities, results) {
     // },
     /**
-    * Gets executed when a refresh happens.
-    * @param {String} oldSessionId session ID of the old session
-    * @param {String} newSessionId session ID of the new session
-    */
+     * Gets executed when a refresh happens.
+     * @param {String} oldSessionId session ID of the old session
+     * @param {String} newSessionId session ID of the new session
+     */
     //onReload: function(oldSessionId, newSessionId) {
     //}
 }
