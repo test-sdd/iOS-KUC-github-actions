@@ -1,11 +1,11 @@
 // config when testing locally
-// process.env.DOMAIN = 'test_domain'
-// process.env.USERNAME = 'test_user'
-// process.env.PASSWORD = 'test_password'
+// process.env.DOMAIN = 'test.cybozu.com'
+// process.env.USERNAME = 'test'
+// process.env.PASSWORD = 'test'
 
 const appID = 717;
 
-describe.only('Index', () => {
+describe('Index', () => {
   before(async () => {
     browser.url(`https://${process.env.DOMAIN}/k/m/${appID}/`);
     // const localSettingForDisableWelcomeInfo = 'window.localStorage.setItem("gaia.1::com.cybozu.kintone.mobile.LocalSetting", \'{"v2NavigationPanelButtonTooltipDisplayed":true,"v2WelcomeDialogDisplayed":true}\')';
@@ -67,7 +67,7 @@ describe('Create', () => {
 
 describe('Detail', () => {
   before(() => {
-    browser.url(`https://${process.env.DOMAIN}/k/m/${appID}/show#record=1`);
+    browser.url(`https://${process.env.DOMAIN}/k/m/${appID}/show?record=1&prev=0&next=0&view=20`);
     browser.pause(5000);
   });
 
