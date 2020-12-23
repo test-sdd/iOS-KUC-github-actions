@@ -78,11 +78,11 @@ exports.config = {
 
         ['image-comparison', {
             // 基準となる画像を保存するフォルダ
-            baselineFolder: join(process.cwd(), './resources/baseline/'),
+            baselineFolder: join(process.cwd(), './resources/baseline/ios_browser/'),
             // 保存する画像のファイル名のフォーマット
             formatImageName: '{tag}-{logName}-{width}x{height}',
             // テスト実行時に保存される画像を保存するフォルダ
-            screenshotPath: join(process.cwd(), '.tmp/'),
+            screenshotPath: join(process.cwd(), '.tmp/ios_browser/'),
             // インスタンス毎に保存するフォルダを分けるかどうか
             savePerInstance: true,
             // 基準となる画像を自動で保存するかどうか
